@@ -10,7 +10,8 @@ from rest_framework import status
 
 
 CREATE_USER_URL = reverse('users:create')
-CREATE_USER_TOKEN_URL = reverse('users:token')
+LOGIN_URL = reverse('users:token')
+
 
 
 def create_user(**params):
@@ -77,7 +78,7 @@ class PublicUseApiTests(TestCase):
             'username': user_details['email'],
             'password': user_details['password']
         }
-        res = self.client.post(CREATE_USER_TOKEN_URL, payload)
+        res = self.client.post(LOGIN_URL, payload)
 
         self.assertIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
@@ -95,7 +96,7 @@ class PublicUseApiTests(TestCase):
             'username': user_details['email'],
             'password': 'BadPassword123'
         }
-        res = self.client.post(CREATE_USER_TOKEN_URL, payload)
+        res = self.client.post(LOGIN_URL, payload)
 
         self.assertNotIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
@@ -113,7 +114,7 @@ class PublicUseApiTests(TestCase):
             'username': user_details['email'],
             'password': ''
         }
-        res = self.client.post(CREATE_USER_TOKEN_URL, payload)
+        res = self.client.post(LOGIN_URL, payload)
 
         self.assertNotIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
