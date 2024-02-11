@@ -7,5 +7,6 @@ from users import views
 app_name = 'users'
 
 urlpatterns = [
-    path('', views.CreateUserView.as_view(), name='create')
+    path('', views.CreateUserView.as_view(), name='create'),
+    path('login/', views.CreateTokenView.as_view(), name="token"),
 ]
