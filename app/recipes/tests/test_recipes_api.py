@@ -13,7 +13,8 @@ from rest_framework.test import APIClient
 from core.models import Recipe
 from recipes.serializers import RecipeSerializer
 
-RECIPES_URL = reverse('recipes:recipes-list')
+RECIPES_URL = reverse('recipe:recipe-list')
+
 
 def create_recipe(user, **params):
     """Create and return a sample recipe."""
@@ -27,6 +28,7 @@ def create_recipe(user, **params):
     defaults.update(params)
     recipe = Recipe.objects.create(user=user, **defaults)
     return recipe
+
 
 class PublicRecipeAPITests(TestCase):
     """Test unauthenticated API requests."""
@@ -45,7 +47,7 @@ class AuthenticatedRecipeAPITests(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.user = get_user_model().object.create_user(
+        self.user = get_user_model().objects.create_user(
             'user@example.com',
             'testpass123',
         )
@@ -66,7 +68,7 @@ class AuthenticatedRecipeAPITests(TestCase):
 
     def test_retrieve_list_limited_to_user(self):
         """Test list of recipes is limited to authenticated user."""
-        other_user = get_user_model.objects.create_user(
+        other_user = get_user_model().objects.create_user(
             'other@example.com',
             'passtest123',
         )
@@ -79,7 +81,3 @@ class AuthenticatedRecipeAPITests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
-
-
-
-
