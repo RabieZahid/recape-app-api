@@ -10,6 +10,7 @@ from rest_framework.routers import DefaultRouter
 from recipes import views
 
 router = DefaultRouter()
+router.register('tags', views.TagViewSet)
 router.register('', views.RecipeViewSet)
 
 app_name = 'recipe'
