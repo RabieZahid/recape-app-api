@@ -18,3 +18,10 @@ class RecipeSerializer(serializers.ModelSerializer):
         auth_user = self.context['request'].user
         recipe = Recipe.objects.create(user=auth_user, **validated_data)
         return recipe
+
+
+class RecipeDetailSerializer(RecipeSerializer):
+    """Serializer for recipe detail view."""
+
+    class Meta(RecipeSerializer.Meta):
+        fields = RecipeSerializer.Meta.fields + ['description']
